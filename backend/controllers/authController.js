@@ -10,7 +10,7 @@ const generateToken = (id) => {
 //Function to register a fcking client
 export const registerUser = async (req, res) => {
   try {
-    const { name, email, password } = req.body;
+    const { firstName, lastName, email, password } = req.body;
     const found = await User.findOne({ email });
 
     if (found) {
@@ -18,7 +18,8 @@ export const registerUser = async (req, res) => {
     }
     const hashedPassword = await bcrypt.hash(password, 10);
     const user = await User.create({
-      name,
+      firstName,
+      lastName,
       email,
       password: hashedPassword,
     });

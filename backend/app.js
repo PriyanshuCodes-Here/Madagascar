@@ -19,6 +19,6 @@ app.get("/", (req, res) => {
   res.send("API is alive");
 });
 
-app.use("/api/auth", authRoutes);
+app.use("/api/oth", authRoutes);
 
 export default app;
