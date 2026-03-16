@@ -4,6 +4,7 @@ import {
   registerUser,
   loginUser,
   logoutUser,
+  verifyEmail
 } from "../controllers/authController.js";
 
 import {
@@ -20,6 +21,8 @@ const router = express.Router();
 router.post("/register", authLimiter, registerUser);
 router.post("/login", apiLimiter, loginUser);
 router.post("/logout", logoutUser);
+router.get("/verify/:token", verifyEmail);
+
 
 router.post("/upload", protect, upload.single("file"), (req, res) => {
   res.json({
