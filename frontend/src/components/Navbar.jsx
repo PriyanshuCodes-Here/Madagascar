@@ -28,7 +28,7 @@ const Navbar = () => {
             {/* Desktop Links (Left) */}
             <div className="hidden md:flex space-x-8 text-sm uppercase tracking-widest font-light">
               <Link to="/shop" className={`hover:text-gray-500 transition-colors ${isActive('/shop') ? 'border-b border-black' : ''}`}>Shop</Link>
-              <Link to="/about" className={`hover:text-gray-500 transition-colors ${isActive('/about') ? 'border-b border-black' : ''}`}>Maison</Link>
+              <Link to="/about" className={`hover:text-gray-500 transition-colors ${isActive('/about') ? 'border-b border-black' : ''}`}>About us</Link>
             </div>
 
             {/* Brand Logo (Center) */}
@@ -42,7 +42,7 @@ const Navbar = () => {
             <div className="flex items-center space-x-6 text-sm uppercase tracking-widest font-light">
               <Link className="hidden md:block hover:text-gray-500 transition-colors" to="/dashboard">Account</Link>
               <Link to="/cart" className="hover:text-gray-500 transition-colors flex items-center gap-2">
-                Cart <span className="bg-black text-white text-[10px] px-2 py-0.5 rounded-full">2</span>
+                Cart 
               </Link>
             </div>
           </div>
@@ -61,7 +61,7 @@ const Navbar = () => {
             <div className="flex flex-col space-y-8 text-2xl font-light uppercase tracking-widest">
               <Link to="/" onClick={() => setIsOpen(false)}>Home</Link>
               <Link to="/shop" onClick={() => setIsOpen(false)}>Shop</Link>
-              <Link to="/about" onClick={() => setIsOpen(false)}>Maison</Link>
+              <Link to="/about" onClick={() => setIsOpen(false)}>About us</Link>
               <Link to="/dashboard" onClick={() => setIsOpen(false)}>Account</Link>
             </div>
           </motion.div>

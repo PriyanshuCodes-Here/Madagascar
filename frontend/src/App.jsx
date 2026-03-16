@@ -22,6 +22,8 @@ import ProductListPage from "./pages/ProductListPage";
 import ProductDetail from './pages/ProductDetail';
 import AboutPage from "./pages/AboutPage";
 import CartPage from "./pages/CartPage";
+import ContactPage from "./pages/ContactPage";
+import ShippingReturn from "./pages/ShippingPage";
 import CheckoutPage from "./pages/CheckoutPage";
 import UserDashboard from "./pages/UserDashboard";
 
@@ -59,6 +61,8 @@ function App() {
               <Route path="/product/:id" element={<ProductDetail />} />
               <Route path="/register" element={<RegisterPage />} />
               <Route path="/about" element={<AboutPage />} />
+              <Route path="/shipping" element={<ShippingReturn />}></Route>
+              <Route path="/contact" element={<ContactPage />}></Route>
               <Route path="/cart" element={<CartPage />} />
               <Route path="/admin" element={<AdminDashboard />} />
               <Route path="/checkout" element={<CheckoutPage />} />

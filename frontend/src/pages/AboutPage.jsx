@@ -8,10 +8,10 @@ const AboutPage = () => {
         <img 
           src="https://images.unsplash.com/photo-1445205170230-053b83016050?q=80&w=2000&auto=format&fit=crop" 
           alt="Atelier" 
-          className="absolute inset-0 w-full h-full object-cover grayscale opacity-80"
+          className="absolute inset-0 w-full h-full object-cover opacity-100"
         />
         <h1 className="relative z-10 text-6xl md:text-8xl font-serif text-white tracking-tighter uppercase mix-blend-difference">
-          The Maison
+          The Madagascar
         </h1>
       </section>
 

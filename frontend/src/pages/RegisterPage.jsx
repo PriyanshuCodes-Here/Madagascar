@@ -20,7 +20,7 @@ const RegisterPage = () => {
 const handleSubmit = async (e) => {
   e.preventDefault();
 console.log(formData);
-  const response = await fetch("http://localhost:5000/api/oth/register", {
+  const response = await fetch("http://localhost:5000/api/auth/register", {
     method: "POST",
     credentials: "include",
     headers: {

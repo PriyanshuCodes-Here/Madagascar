@@ -1,78 +1,138 @@
-import { useState, useContext } from 'react';
-import { motion } from 'framer-motion';
-import { Link, useNavigate, useLocation } from 'react-router-dom';
-import { AuthContext } from '../context/AuthContext';
+import { useState, useContext } from "react";
+import { useNavigate } from "react-router-dom";
+import { motion } from "framer-motion";
+import { AuthContext } from "../context/AuthContext";
 
 const LoginPage = () => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
   const { login } = useContext(AuthContext);
   const navigate = useNavigate();
-  const location = useLocation();
+  const [isLogin, setIsLogin] = useState(true);
+  const [error, setError] = useState("");
+  const [formData, setFormData] = useState({
+    firstName: "",
+    lastName: "",
+    email: "",
+    password: "",
+  });
 
-  // If they were trying to access a protected route, send them back there after login
-  const from = location.state?.from?.pathname || '/dashboard';
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    // In the real world, await the API call here
-    await login(email, password);
-    navigate(from, { replace: true });
+    setError("");
+
+    const endpoint = isLogin ? "/api/auth/login" : "/api/auth/register";
+
+    try {
+      const response = await fetch(`http://localhost:5000${endpoint}`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        credentials: "include",
+        body: JSON.stringify(formData),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        if (isLogin) {
+          const userData = {
+            firstName: data.user?.firstName || "Guest",
+            lastName: data.user?.lastName || "",
+            role: data.role || "user",
+          };
+
+          login(userData);
+          navigate("/dashboard");
+        } else {
+          setError("Check your email to verify your account.");
+        }
+      }
+    } catch (err) {
+      setError("Maison Server Offline");
+    }
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-stone-50 px-4">
-      <motion.div 
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6, ease: "easeOut" }}
-        className="w-full max-w-md"
-      >
-        <h1 className="text-4xl font-light tracking-widest uppercase mb-10 text-center">Sign In</h1>
-        
-        <form onSubmit={handleSubmit} className="space-y-8">
-          <div>
-            <input 
-              type="email" 
-              placeholder="EMAIL ADDRESS" 
-              required
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              className="w-full border-b border-gray-300 py-3 outline-none focus:border-black transition-colors bg-transparent text-sm tracking-widest placeholder-gray-400 uppercase" 
-            />
-          </div>
-          <div>
-            <input 
-              type="password" 
-              placeholder="PASSWORD" 
-              required
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              className="w-full border-b border-gray-300 py-3 outline-none focus:border-black transition-colors bg-transparent text-sm tracking-widest placeholder-gray-400 uppercase" 
-            />
-          </div>
-          
-          <div className="flex justify-between items-center mt-4">
-            <button type="button" className="text-xs text-gray-500 hover:text-black uppercase tracking-widest transition-colors">
-              Forgot Password?
+    <div className="min-h-screen bg-stone-50 flex items-center justify-center px-4">
+      <div className="max-w-md w-full">
+        <div className="text-center mb-10">
+          <h1 className="text-3xl font-serif uppercase tracking-tighter mb-2">
+            Madagascar
+          </h1>
+          <p className="text-[10px] uppercase tracking-[0.4em] text-stone-400">
+            {isLogin ? "Authenticating" : "Registration"}
+          </p>
+        </div>
+
+        <div className="bg-white p-8 border border-stone-100 shadow-sm">
+          <form onSubmit={handleSubmit} className="space-y-5">
+            {error && (
+              <p className="text-[9px] uppercase tracking-widest text-red-500 bg-red-50 p-2 text-center border border-red-100">
+                {error}
+              </p>
+            )}
+
+            <div className="space-y-4">
+              {!isLogin && (
+                <div className="grid grid-cols-2 gap-4">
+                  <input
+                    type="text"
+                    name="firstName"
+                    placeholder="First Name"
+                    required
+                    onChange={handleChange}
+                    className="w-full bg-transparent border-b border-stone-200 py-2 outline-none focus:border-black transition-all text-xs uppercase tracking-widest"
+                  />
+                  <input
+                    type="text"
+                    name="lastName"
+                    placeholder="Last Name"
+                    required
+                    onChange={handleChange}
+                    className="w-full bg-transparent border-b border-stone-200 py-2 outline-none focus:border-black transition-all text-xs uppercase tracking-widest"
+                  />
+                </div>
+              )}
+
+              <input
+                type="email"
+                name="email"
+                placeholder="Email"
+                required
+                onChange={handleChange}
+                className="w-full bg-transparent border-b border-stone-200 py-2 outline-none focus:border-black transition-all text-xs uppercase tracking-widest"
+              />
+
+              <input
+                type="password"
+                name="password"
+                placeholder="Password"
+                required
+                onChange={handleChange}
+                className="w-full bg-transparent border-b border-stone-200 py-2 outline-none focus:border-black transition-all text-xs tracking-widest"
+              />
+            </div>
+
+            <button className="w-full bg-black text-white py-4 mt-4 uppercase tracking-[0.4em] text-[10px] hover:bg-stone-800 transition-all">
+              {isLogin ? "Sign In" : "Create Profile"}
+            </button>
+          </form>
+
+          <div className="mt-8 text-center pt-6 border-t border-stone-50">
+            <button
+              onClick={() => {
+                setIsLogin(!isLogin);
+                setError("");
+              }}
+              className="text-[10px] uppercase tracking-[0.2em] text-stone-400 hover:text-black transition-colors"
+            >
+              {isLogin ? "Need an account?" : "Already a member?"}
             </button>
           </div>
-
-          <button 
-            type="submit" 
-            className="w-full bg-black text-white py-4 uppercase tracking-widest text-sm hover:bg-gray-900 transition-colors mt-8"
-          >
-            Access Account
-          </button>
-        </form>
-
-        <div className="mt-12 text-center">
-          <p className="text-xs text-gray-500 uppercase tracking-widest mb-4">Don't have an account?</p>
-          <Link to="/register" className="text-sm border-b border-black pb-1 uppercase tracking-widest hover:text-gray-500 transition-colors">
-            Create Account
-          </Link>
         </div>
-      </motion.div>
+      </div>
     </div>
   );
 };
