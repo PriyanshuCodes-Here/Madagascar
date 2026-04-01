@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import ProductCard from "../components/ProductCard";
-import silknoir from "../assets/silknoir.jpg";
+import silknoir from "../assets/Silknoir.jpg";
 import overcoat from "../assets/oversizedwoolcoat.jpg";
 
 // Mock Data for the grid
