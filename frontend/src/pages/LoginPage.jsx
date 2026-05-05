@@ -23,10 +23,10 @@ const LoginPage = () => {
     e.preventDefault();
     setError("");
 
-    const endpoint = isLogin ? "/api/auth/login" : "/api/auth/register";
+    const BASE_URL = import.meta.env.VITE_API_URL;
 
     try {
-      const response = await fetch(`http://localhost:5000${endpoint}`, {
+      const response = await fetch(`${BASE_URL}`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         credentials: "include",
