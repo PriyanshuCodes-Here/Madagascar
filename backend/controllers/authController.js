@@ -34,9 +34,9 @@ export const registerUser = async (req, res) => {
       email,
       password: hashedPassword,
       verificationToken,
-      isVerified: false3
+      isVerified: false
     });
-    const verifyURL = `http://localhost:5000/api/auth/verify/${verificationToken}`;
+    const verifyURL = `https://madagascar-hmw3.onrender.com/api/auth/verify/${verificationToken}`;
 
     await sendEmail(
       email,
@@ -118,11 +118,11 @@ export const loginUser = async (req, res) => {
     const token = generateToken(user._id);
 
     res.cookie("token", token, {
-      httpOnly: true,
-      secure: true,
-      sameSite: "lax",
-      maxAge: 60 * 60 * 1000
-    });
+  httpOnly: true,
+  secure: true,
+  sameSite: "None",
+  maxAge: 60 * 60 * 1000
+});
 
     res.status(200).json({
       message: "Login successful",
